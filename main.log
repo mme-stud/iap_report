@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.11)  11 APR 2025 22:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.11)  12 APR 2025 01:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -847,29 +847,72 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 10.0pt on input line 86.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 92.
+(Font)              scaled to size 10.0pt on input line 93.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 142.
+
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 141.
+(Font)              scaled to size 10.0pt on input line 143.
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 150.
+
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 156.
- [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}]
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 10.0pt on input line 198.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 7.3pt on input line 198.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 5.5pt on input line 198.
- (./main.bbl
+(Font)              scaled to size 7.0pt on input line 158.
+[1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}]
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 158.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 169.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 176.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 188.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 203.
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
+(Font)              scaled to size 10.0pt on input line 240.
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 8.0pt on input line 242.
+[2.2]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 275.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 275.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 320.
+
+
+Package fancyhdr Warning: \headheight is too small (13.0pt): 
+(fancyhdr)                Make it at least 18.67603pt, for example:
+(fancyhdr)                \setlength{\headheight}{18.67603pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-5.67603pt}.
+
+[3.3{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}]
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 356.
+
+
+Overfull \hbox (13.87564pt too wide) in paragraph at lines 362--363
+[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) decrease in the over-all max-i-mal con-duc-tance: a PQ with $\OML/nxlmi/m/it/10 k$ \T1/LinuxLibertineT-TLF/m/n/10 (-20) cur-rent con-duc-tances $\OML/nxlmi/m/it/10 '\LMS/ntxsy/m/n/10 ¹\OML/nxlmi/m/it/10 V[]\LMS/ntxsy/m/n/10 º\OML/nxlmi/m/it/10 ; [] ; '\LMS/ntxsy/m/n/10 ¹\OML/nxlmi/m/it/10 V[]\LMS/ntxsy/m/n/10 º$
+ []
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/it' will be
+(Font)              scaled to size 10.0pt on input line 363.
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 368.
+
+(./main.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 8.0pt on input line 11.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 13.
- [2.2{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}]
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 8.0pt on input line 22.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 6.2pt on input line 22.
-)
+ [4.4{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_ki75ao.enc}])
 
 Package fancyhdr Warning: \headheight is too small (13.0pt): 
 (fancyhdr)                Make it at least 18.67603pt, for example:
@@ -881,27 +924,27 @@ Package fancyhdr Warning: \headheight is too small (13.0pt):
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/share/texlive/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [3.3] (./main.aux)
+) [5.5] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9BDA9BCC77F599E7CD97B4AC24619090;925.
+(rerunfilecheck)             Checksum: 95C3D8614E92E677005E77C57D44DBE2;1556.
  ) 
 Here is how much of TeX's memory you used:
- 20970 strings out of 474222
- 335613 string characters out of 5748733
+ 21033 strings out of 474222
+ 337086 string characters out of 5748733
  1948975 words of memory out of 5000000
- 42359 multiletter control sequences out of 15000+600000
- 707069 words of font info for 306 fonts, out of 8000000 for 9000
+ 42381 multiletter control sequences out of 15000+600000
+ 719308 words of font info for 325 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,17n,131p,1018b,672s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txsym.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on main.pdf (3 pages, 508239 bytes).
+ 90i,17n,131p,1018b,682s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txsym.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on main.pdf (5 pages, 503886 bytes).
 PDF statistics:
- 165 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 19 named destinations out of 1000 (max. 500000)
- 83025 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 207 PDF objects out of 1000 (max. 8388607)
+ 161 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 83049 words of extra memory for PDF output out of 89155 (max. 10000000)
 
