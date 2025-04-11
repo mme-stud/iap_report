@@ -23,7 +23,9 @@
 \newcommand{\cov}{\term{cov}\xspace}
 \newcommand{\term}[1]{\textsl{#1}}
 \newcommand{\Comment}[1]{\textsl{#1}}
-
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\origVol}{origVol}
+\DeclareMathOperator{\origDeg}{origDeg}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcopyright{none}
 \copyrightyear{2021}
@@ -32,9 +34,9 @@
 \acmPrice{}
 \acmISBN{}
 
-\title{Algorithm Engineering Seminar: }
-\author{your name}
-\email{your email, field of study and matrikelnumber}
+\title{Beginner's Practical: \\ Hypergraph Conductance-based Clustering}
+\author{Mariia Meshchaninova}
+\email{mariia.meshchaninova@stud.uni-heidelberg.de, Informatik B.Sc. 100\%, 4740180}
 \affiliation{%
   \institution{Heidelberg University}
   \streetaddress{Im Neuenheimer Feld 205}
@@ -50,12 +52,175 @@
 \begin{document}
 
 \begin{abstract}
-Insert abstract here.
+%Insert abstract here.
+Hypergraph clustering is a problem of partitioning the nodes of 
+a hypergraph into "true clusters" which are densely connected internally 
+and sparsely connected externally. Conductance is a metric measuring the 
+quality of a cut which is defined as the ratio of the weight of the cut 
+to the minimal volume of one side of the cut.
+In this project, we implement a hypergraph clustering algorithm that
+heuristically tries to minimize the maximum value of the conductance 
+over all cuts between clusters to find a high-quality hypergraph 
+clustering. The algorithm is based on the existing shared-memory 
+parallel algorithm for hypergraph partitioning \texttt{Mt-KaHyPar}.
 \end{abstract}
 \maketitle
 
 \section{Introduction}
-insert text here
+Hypergraph clustering is a problem of partitioning the nodes of a hypergraph
+into "true clusters" which are densely connected internally and sparsely
+connected externally. It is useful in many applications, such as 
+semi-supervised learning \cite{ApplicationLearning}, 
+gene expression analysis \cite{ApplicationGeneExpression}
+and image segmentation \cite{ApplicationImageSegmentation}. 
+Conductance metric, which is defined as the ratio of the weight of a given
+cut to the minimal volume of one side of the cut, is widely used in graph 
+clustering \cite{GraphConductance2023,GraphConductance2006} but to the best
+of our knowledge, it has only been applied as a metric for evaluating the
+quality of a hypergraph clustering \cite{HyperSF}. Therefore in this 
+project, we implement a heuristic hypergraph clustering algorithm with the
+objective of minimizing the maximum value of the conductance over all cuts between
+the clusters while partitioning the hypargraph in at most $k$ clusters. 
+
+\noindent Our algorithm is based on the existing shared-memory parallel 
+hypergraph $k$-way partitioner \texttt{Mt-KaHyPar} and uses the same 
+multilevel approach as the original algorithm. First, the hypergraph is 
+coarsened in stages by detecting and merging node commubities, then the 
+coarsest hypergraph is partitioned into $k$ clusters, and finally the 
+initial partitioning is refined by uncoarsening the hypergraph nodes and 
+applying a local search algorithm to improve the given objective. We 
+implement two objective functions for the local search algorithm - \textit{conductance\_local} and \textit{conductance\_global} - 
+ans compare their performance on a benchmark set \texttt{ibm01...18} 
+against a state of the art hypergraph partitioner \texttt{HyperModularity}.
+
+\noindent In following, we define the used concepts in Section~\ref{sec:preliminaries}, 
+then we describe related work on hypergraph partitioning and provide an overview
+of the existing conductance-based clustering algorithms in Section~\ref{sec:related_work}. In 
+Section~\ref{sec:implementation}, we describe the implementation of the new 
+objectives for optimizing the conductance. Afterwards, we present the 
+experimental results of our implementation in Section~\ref{sec:experiments}. 
+Finally, we conclude the paper and discuss future work in Section~\ref{sec:conclusion}.
+
+
+%\noindent In this project, we implement a heuristic algorithm for hypergraph 
+%lustering with the aim of partitioning the nodes of a hypergraph into 
+%at most $k$ clusters, while minimising the maximum value of the conductance 
+%over all the cuts between the clusters. The algorithm is based on the 
+%existing shared-memory parallel hypergraph partitioner \texttt{Mt-KaHyPar}
+%and uses the same multilevel approach as the original algorithm. First,
+%the hypergraph is coarsened in stages by detecting and merging node
+%commubities, then the coarsest hypergraph is partitioned into $k$ clusters, 
+%and finally the initial partitioning is refined by uncoarsening the 
+%hypergraph nodes and applying a local search algorithm to improve the given 
+%objective. We implement two objective functions for the local search 
+%algorithm - \textit{conductance\_local} and \textit{conductance\_global} - 
+%ans compare their performance on a benchmark set of instances against
+
+
+
+%performance on large benchmark sets of instances against other state-of-the-art 
+%hypergraph partitioners \cite{MtKaHyPar2020}. The algorithm follows a multilevel
+%approach by in stages coarsening a given hypergraph via detecting and merging 
+%communities of the nodes, then partitioning the coarsest hypergraph into $k$ 
+%clusters, and then iteratively refining the initial partitioning by uncoarsening
+%the hypergraph nodes and applying a local search algorithm to improve the given 
+%objective. The original algorithms supports several objectives, such as minimizing 
+%the weight of the cut (\textit{cut} metric) or the sum of the external degrees of 
+%the clusters (\textit{soed} metric). In this project, we implement two additional 
+%objective functions for the \texttt{Mt-KaHyPar} algorithm to minimize the overall 
+%maxmal conductance of a cut inbetween the clusters: \textit{conductance\_local} 
+%and \textit{conductance\_global}.
+
+
+\section{Preliminaries}
+\label{sec:preliminaries}
+
+In this section, we give an overview of the used concepts and notations and 
+define conductance of a hypergraph.
+
+\textbf{Hypergraph} is a generalization of a graph, where a hyperedge connects 
+one, two or more nodes. Formally, a hypergraph $H = (V, E, c, \omega)$ consists 
+of a non-empty set of nodes $V$, a set of hyperedges (also called \textit{nets}
+and simply \textit{edges}) $E \subseteq 2^V$ and weight functions for hypernodes 
+and hyperedges $c: V \to \mathbb{N}$, $\omega: E \to \mathbb{N}$. If case of 
+unweighted nodes or hyperedges, we set $c(v) = 1$ for all $v \in V$ or 
+$\omega(e) = 1$ for all $e \in E$, respectively. 
+
+\textbf{$k$-way clustering} of a hypergraph $H = (V, E, c, \omega)$ is a
+partitioning of the set of nodes $V$ into $k$ disjoint subsets 
+$V_1, \dots, V_k$ called \textit{clusters}. Empty clusters are allowed, so
+$k$ is only an upper bound on the number of clusters. The algorithm is allowed 
+to eventially move all the nodes of a cluster to other clusters if it would be
+beneficial for the objective function. 
+
+\textbf{Cut} $\partial S$ of a hypergraph $H = (V, E, c, \omega)$ is partitioning
+of the set of nodes $V$ into two disjoint non-empty subsets $S$ and 
+$V \backslash S$. A hyperedge $e \in E$ is called a \textbf{cutting edge} of 
+the cut $\partial S$ if it has at least one pin in $S$ and at least one pin in
+$V \backslash S$. The weight of the cut is defined as the sum of the weights of
+the cutting edges of the cut $\partial S$: 
+\[\omega(\partial S) = \sum_{e \in \partial S} \omega(e)\]
+Therefore In case of unweighted hyperedges, the weight of the cut is equal to 
+the number of cutting edges of the cut.
+
+\textbf{Pin} of a hyperedge $e \in E$ is a node $v \in V$ such that $v \in e$.
+A hyperedge with only one pin is called a \textbf{sinle-pin net}.
+In the implementation, we use number of pins $PinNum_i(e)$ of a hyperedge 
+$e \in E$ in a cluster $V_i$ to decide whether to move a node $v$ from one
+cluster $V_i$ to another cluster $V_j$.
+
+\textbf{Weighted degree} of a node $v \in V$ is defined the same way in 
+hypergraphs as in graphs. It is the sum of the weights of all hyperedges 
+$e \in E$ that contain the node $v$: 
+\[\deg_\omega(v) = \sum_{e\in E: v \in E} \omega(e)\]
+As during the coarsening phase of the algorithm we merge nodes, we also use
+\textbf{original weighted degree} of a node $v \in V$  $\origDeg_\omega(v)$ 
+which is defined as the sum of the weighted degrees of all nodes $v' \in V$ 
+that were merged into $v$ during the coarsening phase of the algorithm.
+
+\textbf{Volume} of a hypergraph $H = (V, E, c, \omega)$ is defined as the 
+sum of the weighted degrees of all nodes $v \in V$. Analogously, we define the \textbf{volume of a cluster} $V_i$ as the sum 
+of the weighted degrees of all nodes $v \in V_i$:
+\[\vol(H) = \sum_{v \in V} \deg_\omega(v) \ \ \ \ \ \ \
+\vol(V_i) = \sum_{v \in V_i} \deg_\omega(v)\]
+And for the same reason as for the original weighted degree, we also define 
+the \textbf{original volume} of a hypargraph and a cluster:
+\[\origVol(H) = \sum_{v \in V} \origDeg_\omega(v) \ \ \ \ \ \ \
+\origVol(V_i) = \sum_{v \in V_i} \origDeg_\omega(v)\]
+This way, the original volume $\origVol$ of a cluster or the whole hypergraph 
+in the coarsened hypergraph is equal to the corresponding volume in the initial 
+- \textit{original} - hypergraph.
+
+
+STOPPED here
+
+  \textbf{Conductance of a cut} $S \subseteq V$: 
+  \[\mathbf{\varphi(S)} = \frac{\sum_{e \in \partial S}\omega(e)}{\min\{vol(S), vol(V \backslash S)\}}\]
+
+  $k$-way partition of $H$: $V = \sqcup_{i = 1}^{k} V_k$
+
+  \textbf{Conductance of a $k$-way partition}: 
+  \[\varphi(V_1, \dots, V_k) = \max_{\emptyset \neq I \subset \{1, \dots, k\}}\{\varphi(\sqcup_{i \in I} V_i)\}\]
+
+
+
+
+
+
+\section{Related Work}
+\label{sec:related_work}
+
+\section{Implementation}
+\label{sec:implementation}
+
+\section{Experimental Results}
+\label{sec:experiments}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+
 \bibliographystyle{plainnat}
 \bibliography{references.bib}
 

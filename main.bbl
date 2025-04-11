@@ -1,8 +1,43 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aghdaei et~al.(2021)Aghdaei, Zhao, and Feng]{HyperSF}
+Ali Aghdaei, Zhiqiang Zhao, and Zhuo Feng.
+\newblock Hypersf: Spectral hypergraph coarsening via flow-based local clustering.
+\newblock In \emph{2021 IEEE/ACM International Conference On Computer Aided Design (ICCAD)}, pages 1--9. IEEE, 2021.
+
+\bibitem[Andersen et~al.(2006)Andersen, Chung, and Lang]{GraphConductance2006}
+Reid Andersen, Fan Chung, and Kevin Lang.
+\newblock Local graph partitioning using pagerank vectors.
+\newblock In \emph{2006 47th annual IEEE symposium on foundations of computer science (FOCS'06)}, pages 475--486. IEEE, 2006.
+
+\bibitem[Kim et~al.(2011)Kim, Nowozin, Kohli, and Yoo]{ApplicationImageSegmentation}
+Sungwoong Kim, Sebastian Nowozin, Pushmeet Kohli, and Chang Yoo.
+\newblock Higher-order correlation clustering for image segmentation.
+\newblock In J.~Shawe-Taylor, R.~Zemel, P.~Bartlett, F.~Pereira, and K.Q. Weinberger, editors, \emph{Advances in Neural Information Processing Systems}, volume~24. Curran Associates, Inc., 2011.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2011/file/98d6f58ab0dafbb86b083a001561bb34-Paper.pdf}.
+
+\bibitem[Lin et~al.(2023)Lin, Li, and Jia]{GraphConductance2023}
+Longlong Lin, Ronghua Li, and Tao Jia.
+\newblock Scalable and effective conductance-based graph clustering.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023.
+
+\bibitem[Tian et~al.(2009)Tian, Hwang, and Kuang]{ApplicationGeneExpression}
+Ze~Tian, TaeHyun Hwang, and Rui Kuang.
+\newblock A hypergraph-based learning algorithm for classifying gene expression and arraycgh data with prior knowledge.
+\newblock \emph{Bioinformatics}, 25\penalty0 (21):\penalty0 2831--2838, 07 2009.
+\newblock ISSN 1367-4803.
+\newblock \doi{10.1093/bioinformatics/btp467}.
+\newblock URL \url{https://doi.org/10.1093/bioinformatics/btp467}.
+
+\bibitem[Zhou et~al.(2006)Zhou, Huang, and Sch\"{o}lkopf]{ApplicationLearning}
+Dengyong Zhou, Jiayuan Huang, and Bernhard Sch\"{o}lkopf.
+\newblock Learning with hypergraphs: Clustering, classification, and embedding.
+\newblock In B.~Sch\"{o}lkopf, J.~Platt, and T.~Hoffman, editors, \emph{Advances in Neural Information Processing Systems}, volume~19. MIT Press, 2006.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2006/file/dff8e9c2ac33381546d96deea9922999-Paper.pdf}.
 
 \end{thebibliography}
