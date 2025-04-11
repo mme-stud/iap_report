@@ -91,6 +91,46 @@ Article{Sou35,
     eprint = {https://academic.oup.com/bioinformatics/article-pdf/25/21/2831/48997431/bioinformatics\_25\_21\_2831.pdf},
 }
 
+@inproceedings{ApplicationImageSegmentation,
+ author = {Kim, Sungwoong and Nowozin, Sebastian and Kohli, Pushmeet and Yoo, Chang},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {J. Shawe-Taylor and R. Zemel and P. Bartlett and F. Pereira and K.Q. Weinberger},
+ pages = {},
+ publisher = {Curran Associates, Inc.},
+ title = {Higher-Order Correlation Clustering for Image Segmentation},
+ url = {https://proceedings.neurips.cc/paper_files/paper/2011/file/98d6f58ab0dafbb86b083a001561bb34-Paper.pdf},
+ volume = {24},
+ year = {2011}
+}
+
+@article{Nibble,
+ title={A local clustering algorithm for massive graphs and its application to nearly linear time graph partitioning},
+ author={Spielman, Daniel A and Teng, Shang-Hua},
+ journal={SIAM Journal on computing},
+ volume={42},
+ number={1},
+ pages={1--26},
+ year={2013},
+ publisher={SIAM}
+}
+
+@inproceedings{HKRelax,
+ author = {Kloster, Kyle and Gleich, David F.},
+ title = {Heat kernel based community detection},
+ year = {2014},
+ isbn = {9781450329569},
+ publisher = {Association for Computing Machinery},
+ address = {New York, NY, USA},
+ url = {https://doi.org/10.1145/2623330.2623706},
+ doi = {10.1145/2623330.2623706},
+ abstract = {The heat kernel is a type of graph diffusion that, like the much-used personalized PageRank diffusion, is useful in identifying a community nearby a starting seed node. We present the first deterministic, local algorithm to compute this diffusion and use that algorithm to study the communities that it produces. Our algorithm is formally a relaxation method for solving a linear system to estimate the matrix exponential in a degree-weighted norm. We prove that this algorithm stays localized in a large graph and has a worst-case constant runtime that depends only on the parameters of the diffusion, not the size of the graph. On large graphs, our experiments indicate that the communities produced by this method have better conductance than those produced by PageRank, although they take slightly longer to compute. On a real-world community identification task, the heat kernel communities perform better than those from the PageRank diffusion.},
+ booktitle = {Proceedings of the 20th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+ pages = {1386–1395},
+ numpages = {10},
+ keywords = {heat kernel, local clustering},
+ location = {New York, New York, USA},
+ series = {KDD '14}
+}
 
 @article{MtKaHyPar2020,
   author       = {Lars Gottesb{\"{u}}ren and
@@ -109,16 +149,13 @@ Article{Sou35,
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{ApplicationImageSegmentation,
- author = {Kim, Sungwoong and Nowozin, Sebastian and Kohli, Pushmeet and Yoo, Chang},
- booktitle = {Advances in Neural Information Processing Systems},
- editor = {J. Shawe-Taylor and R. Zemel and P. Bartlett and F. Pereira and K.Q. Weinberger},
- pages = {},
- publisher = {Curran Associates, Inc.},
- title = {Higher-Order Correlation Clustering for Image Segmentation},
- url = {https://proceedings.neurips.cc/paper_files/paper/2011/file/98d6f58ab0dafbb86b083a001561bb34-Paper.pdf},
- volume = {24},
- year = {2011}
+@inproceedings{HeavyEdge,
+author = {Schlag, Sebastian and Akhremtsev, Yaroslav and Heuer, Tobias and Sanders, Peter},
+year = {2017},
+month = {01},
+pages = {},
+title = {Engineering a direct k-way Hypergraph Partitioning Algorithm},
+doi = {10.1137/1.9781611974768.3}
 }
 
 @inproceedings{HyperSF,
@@ -130,6 +167,17 @@ Article{Sou35,
   organization={IEEE}
 }
 
+@article{HyperModularity,
+  title={Generative hypergraph clustering: From blockmodels to modularity},
+  author={Chodrow, Philip S and Veldt, Nate and Benson, Austin R},
+  journal={Science Advances},
+  volume={7},
+  number={28},
+  pages={eabh1303},
+  year={2021},
+  publisher={American Association for the Advancement of Science}
+}
+
 @inproceedings{GraphConductance2023,
   title={Scalable and effective conductance-based graph clustering},
   author={Lin, Longlong and Li, Ronghua and Jia, Tao},
@@ -138,4 +186,22 @@ Article{Sou35,
   number={4},
   pages={4471--4478},
   year={2023}
+}
+
+@inproceedings{PCde,
+  title={Scalable and effective conductance-based graph clustering},
+  author={Lin, Longlong and Li, Ronghua and Jia, Tao},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={37},
+  number={4},
+  pages={4471--4478},
+  year={2023}
+}
+
+@article{ModularityComparison,
+  title={Comparison of modularity-based approaches for nodes clustering in hypergraphs},
+  author={Poda, Veronica and Matias, Catherine},
+  journal={Peer Community Journal},
+  volume={4},
+  year={2024}
 }

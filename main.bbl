@@ -1,4 +1,4 @@
-\begin{thebibliography}{6}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -15,16 +15,50 @@ Reid Andersen, Fan Chung, and Kevin Lang.
 \newblock Local graph partitioning using pagerank vectors.
 \newblock In \emph{2006 47th annual IEEE symposium on foundations of computer science (FOCS'06)}, pages 475--486. IEEE, 2006.
 
+\bibitem[Chodrow et~al.(2021)Chodrow, Veldt, and Benson]{HyperModularity}
+Philip~S Chodrow, Nate Veldt, and Austin~R Benson.
+\newblock Generative hypergraph clustering: From blockmodels to modularity.
+\newblock \emph{Science Advances}, 7\penalty0 (28):\penalty0 eabh1303, 2021.
+
+\bibitem[Gottesb{\"{u}}ren et~al.(2020)Gottesb{\"{u}}ren, Heuer, Sanders, and Schlag]{MtKaHyPar2020}
+Lars Gottesb{\"{u}}ren, Tobias Heuer, Peter Sanders, and Sebastian Schlag.
+\newblock Scalable shared-memory hypergraph partitioning.
+\newblock \emph{CoRR}, abs/2010.10272, 2020.
+\newblock URL \url{https://arxiv.org/abs/2010.10272}.
+
 \bibitem[Kim et~al.(2011)Kim, Nowozin, Kohli, and Yoo]{ApplicationImageSegmentation}
 Sungwoong Kim, Sebastian Nowozin, Pushmeet Kohli, and Chang Yoo.
 \newblock Higher-order correlation clustering for image segmentation.
 \newblock In J.~Shawe-Taylor, R.~Zemel, P.~Bartlett, F.~Pereira, and K.Q. Weinberger, editors, \emph{Advances in Neural Information Processing Systems}, volume~24. Curran Associates, Inc., 2011.
 \newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2011/file/98d6f58ab0dafbb86b083a001561bb34-Paper.pdf}.
 
-\bibitem[Lin et~al.(2023)Lin, Li, and Jia]{GraphConductance2023}
+\bibitem[Kloster and Gleich(2014)]{HKRelax}
+Kyle Kloster and David~F. Gleich.
+\newblock Heat kernel based community detection.
+\newblock In \emph{Proceedings of the 20th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, KDD '14, page 1386–1395, New York, NY, USA, 2014. Association for Computing Machinery.
+\newblock ISBN 9781450329569.
+\newblock \doi{10.1145/2623330.2623706}.
+\newblock URL \url{https://doi.org/10.1145/2623330.2623706}.
+
+\bibitem[Lin et~al.(2023{\natexlab{a}})Lin, Li, and Jia]{GraphConductance2023}
 Longlong Lin, Ronghua Li, and Tao Jia.
 \newblock Scalable and effective conductance-based graph clustering.
-\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023{\natexlab{a}}.
+
+\bibitem[Lin et~al.(2023{\natexlab{b}})Lin, Li, and Jia]{PCde}
+Longlong Lin, Ronghua Li, and Tao Jia.
+\newblock Scalable and effective conductance-based graph clustering.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023{\natexlab{b}}.
+
+\bibitem[Poda and Matias(2024)]{ModularityComparison}
+Veronica Poda and Catherine Matias.
+\newblock Comparison of modularity-based approaches for nodes clustering in hypergraphs.
+\newblock \emph{Peer Community Journal}, 4, 2024.
+
+\bibitem[Spielman and Teng(2013)]{Nibble}
+Daniel~A Spielman and Shang-Hua Teng.
+\newblock A local clustering algorithm for massive graphs and its application to nearly linear time graph partitioning.
+\newblock \emph{SIAM Journal on computing}, 42\penalty0 (1):\penalty0 1--26, 2013.
 
 \bibitem[Tian et~al.(2009)Tian, Hwang, and Kuang]{ApplicationGeneExpression}
 Ze~Tian, TaeHyun Hwang, and Rui Kuang.

@@ -76,22 +76,24 @@ and image segmentation \cite{ApplicationImageSegmentation}.
 Conductance metric, which is defined as the ratio of the weight of a given
 cut to the minimal volume of one side of the cut, is widely used in graph 
 clustering \cite{GraphConductance2023,GraphConductance2006} but to the best
-of our knowledge, it has only been applied as a metric for evaluating the
-quality of a hypergraph clustering \cite{HyperSF}. Therefore in this 
-project, we implement a heuristic hypergraph clustering algorithm with the
-objective of minimizing the maximum value of the conductance over all cuts 
-between the clusters while partitioning the hypargraph in at most $k$ clusters. 
+of our knowledge, there are no partitioners directly optimizing
+conductance-based metric of a hypergraph, while conductnace has been applied 
+as a metric for evaluating the quality of a hypergraph clustering 
+\cite{HyperSF}. Therefore in this project, we implement a heuristic hypergraph 
+clustering algorithm with the objective of minimizing the maximum value of 
+the conductance over all cuts between the clusters while partitioning 
+the hypargraph in at most $k$ clusters. 
 
 \noindent Our algorithm is based on the existing shared-memory parallel 
 hypergraph $k$-way partitioner \texttt{Mt-KaHyPar} and uses the same 
 multilevel approach as the original algorithm. First, the hypergraph is 
-coarsened in stages by detecting and merging node commubities, then the 
+coarsened in stages by detecting and merging local node clusters, then the 
 coarsest hypergraph is partitioned into $k$ clusters, and finally the 
 initial partitioning is refined by uncoarsening the hypergraph nodes and 
 applying a local search algorithm to improve the given objective. We 
 implement two objective functions for the local search algorithm - 
 \textit{conductance\_local} and \textit{conductance\_global} - 
-ans compare their performance on a benchmark set \texttt{ibm01...18} 
+and compare their performance on a benchmark set \texttt{ibm01...18} 
 against a state of the art hypergraph partitioner \texttt{HyperModularity}.
 
 \noindent In following, we define the used concepts in Section~\ref{sec:preliminaries}, 
@@ -223,7 +225,25 @@ A proof of this nice statement can be found in Appendix~\ref{appendix:a}.
 \section{Related Work}
 \label{sec:related_work}
 
+There are several state of the art algorithms for graph clustering that 
+aim to minimize the resulting conductance. Some of them are heuristic like 
+the diffusion based \texttt{NIBBLE} \cite{Nibble} and \texttt{hk-relax} \cite{HKRelax}.
+Other, such as degree ratio-based \texttt{PC\_de} \cite{PCde} have a theoretical
+guaranatee of the resulting conductance. 
 
+As for the hypergraph-clustering, to the best of our knowledge, there are no
+existing algorithms that directly optimize a conductance-based objective. Instead,
+state of the art hypergraph clustering algorithms, e.g. \texttt{HyperModularity} 
+which we use for comparison with our algorithm, deliver high quality
+hypergraph clustering by optimizing the modularity of the hypergraph
+\cite{HyperModularity,ModularityComparison}.
+
+The algorithm \texttt{Mt-KaHyPar} that we use as a base for our implementation also 
+optimizes the modularity of the hypergraph in its coarsening stage. But in general,
+it could be seen as a framework for hypergraph clustering with a user-implemented
+objective, which is optimized during the initial partitioning of the coarsest hypergraph
+and later in the uncoarsening stage consisting of label propagation and FR-refinement 
+\cite{MtKaHyPar2020}.
 
 \section{Implementation}
 \label{sec:implementation}
