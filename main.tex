@@ -307,7 +307,7 @@ changes:
 one node $v'$:
 \begin{itemize}
     \item $\origDeg_\omega(v') = \origDeg_\omega(v_1) + \dots + \origDeg_\omega(v_c)$. 
-Hence, atomical substraction (addition) is enough to update the original 
+Hence, atomical subtraction (addition) is enough to update the original 
 weighted degrees; It is important to note that this operation doesn't increase 
 the run-time complexity of the algorithm, as to contract the nodes algorithm needs
 to go through them.
@@ -318,7 +318,7 @@ of their representative node $v'$.
     \item \textbf{Node move} of $v$ from one cluster $V_i$ to another cluster $V_j$:
 \begin{itemize}
     \item for original volumes we simpty need one atomical addition and one atomical
-substraction:
+subtraction:
 \[\origVol(V_i) -= \origDeg_\omega(v), \ \ \ \ \ \origVol(V_i) += \origDeg_\omega(v)\]
 
     \item updating cut weight is a bit trickier, but conveniently, \texttt{Mt-KaHyPar}
