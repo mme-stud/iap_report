@@ -10,6 +10,14 @@ Ali Aghdaei, Zhiqiang Zhao, and Zhuo Feng.
 \newblock Hypersf: Spectral hypergraph coarsening via flow-based local clustering.
 \newblock In \emph{2021 IEEE/ACM International Conference On Computer Aided Design (ICCAD)}, pages 1--9. IEEE, 2021.
 
+\bibitem[Alpert(1998)]{IBMBenchmark}
+Charles~J. Alpert.
+\newblock The ispd98 circuit benchmark suite.
+\newblock In \emph{Proceedings of the 1998 International Symposium on Physical Design}, ISPD '98, page 80–85, New York, NY, USA, 1998. Association for Computing Machinery.
+\newblock ISBN 158113021X.
+\newblock \doi{10.1145/274535.274546}.
+\newblock URL \url{https://doi.org/10.1145/274535.274546}.
+
 \bibitem[Andersen et~al.(2006)Andersen, Chung, and Lang]{GraphConductance2006}
 Reid Andersen, Fan Chung, and Kevin Lang.
 \newblock Local graph partitioning using pagerank vectors.
@@ -40,15 +48,10 @@ Kyle Kloster and David~F. Gleich.
 \newblock \doi{10.1145/2623330.2623706}.
 \newblock URL \url{https://doi.org/10.1145/2623330.2623706}.
 
-\bibitem[Lin et~al.(2023{\natexlab{a}})Lin, Li, and Jia]{GraphConductance2023}
+\bibitem[Lin et~al.(2023)Lin, Li, and Jia]{PCde}
 Longlong Lin, Ronghua Li, and Tao Jia.
 \newblock Scalable and effective conductance-based graph clustering.
-\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023{\natexlab{a}}.
-
-\bibitem[Lin et~al.(2023{\natexlab{b}})Lin, Li, and Jia]{PCde}
-Longlong Lin, Ronghua Li, and Tao Jia.
-\newblock Scalable and effective conductance-based graph clustering.
-\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023{\natexlab{b}}.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 4471--4478, 2023.
 
 \bibitem[Poda and Matias(2024)]{ModularityComparison}
 Veronica Poda and Catherine Matias.

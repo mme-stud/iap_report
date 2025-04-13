@@ -3,47 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plainnat.bst
 Database file #1: references.bib
-Warning--can't use both volume and number fields in GraphConductance2023
 Warning--can't use both volume and number fields in PCde
 You've used 12 entries,
             2773 wiz_defined-function locations,
-            725 strings with 8457 characters,
-and the built_in function-call counts, 6762 in all, are:
+            734 strings with 8646 characters,
+and the built_in function-call counts, 6628 in all, are:
 = -- 629
-> -- 379
+> -- 359
 < -- 12
-+ -- 126
-- -- 113
-* -- 552
-:= -- 993
-add.period$ -- 50
++ -- 119
+- -- 107
+* -- 521
+:= -- 979
+add.period$ -- 54
 call.type$ -- 12
-change.case$ -- 71
-chr.to.int$ -- 11
-cite$ -- 26
-duplicate$ -- 327
-empty$ -- 534
-format.name$ -- 131
-if$ -- 1475
-int.to.chr$ -- 2
+change.case$ -- 69
+chr.to.int$ -- 12
+cite$ -- 25
+duplicate$ -- 330
+empty$ -- 523
+format.name$ -- 125
+if$ -- 1456
+int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 12
-newline$ -- 77
+newline$ -- 80
 num.names$ -- 52
-pop$ -- 136
+pop$ -- 130
 preamble$ -- 1
-purify$ -- 59
+purify$ -- 57
 quote$ -- 0
-skip$ -- 266
+skip$ -- 270
 stack$ -- 0
-substring$ -- 241
-swap$ -- 86
-text.length$ -- 9
+substring$ -- 215
+swap$ -- 85
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 132
-warning$ -- 2
-while$ -- 55
+warning$ -- 1
+while$ -- 53
 width$ -- 0
-write$ -- 190
-(There were 2 warnings)
+write$ -- 198
+(There was 1 warning)
