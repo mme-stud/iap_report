@@ -17,6 +17,7 @@
 \usepackage{relsize}
 
 \usepackage{multirow}
+\usepackage{wrapfig}
 
 \newtheorem{openproblem}{Open Problem}
 \newcommand{\ie}{i.\,e.,\xspace}
@@ -31,7 +32,7 @@
 \DeclareMathOperator{\numPins}{numPins}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcopyright{none}
-\copyrightyear{2021}
+\copyrightyear{2024}
 \acmYear{2021}
 \acmDOI{}
 \acmPrice{}
@@ -67,6 +68,11 @@ heuristically tries to minimize the maximum value of the conductance
 over all cuts between clusters to find a high-quality hypergraph 
 clustering. The algorithm is based on the existing shared-memory 
 parallel algorithm for hypergraph partitioning \texttt{Mt-KaHyPar}.
+
+Experimental results show that our implementation is able to find
+high-quality conductance-wise hypergraph clustering in a short time,
+but the results are heavily dependent on the parameter $k$ of the 
+estimated number of clusters.
 \end{abstract}
 \maketitle
 
@@ -111,7 +117,7 @@ we describe the implementation of the new objectives for optimizing
 the conductance and their integration in \texttt{Mt-KaHyPar}. 
 Afterwards, we present the experimental results of our implementation 
 in Section~\ref{sec:experiments}. Finally, we conclude the report 
-and discuss future work in Section~\ref{sec:conclusion}.
+with a shoret summary of the results in Section~\ref{sec:conclusion}.
 
 
 %\noindent In this project, we implement a heuristic algorithm for hypergraph 
@@ -267,7 +273,18 @@ propagation and FR-refinement x\cite{MtKaHyPar2020}.
 \section{Implementation}
 \label{sec:implementation}
 
-To implement a new objective function for \texttt{Mt-KaHyPar}, we 
+To implement our algorithm, we introduced a new objective function
+for the \texttt{Mt-KaHyPar} algorithm, which provides a framework 
+for hypergraph partitioning. Also, we introduced a clustering mode
+(calles \texttt{cluster}) for the \texttt{Mt-KaHyPar} algorithm, which
+relaxes weight constarints for the clusters. The idea and most of the
+implementation of this mode was taken with a premission from
+a fork of \texttt{Mt-KaHyPar} by Adil Chhabara: 
+\hyperlink{https://github.com/adilchhabra/mt-kahypar}
+{https://github.com/adilchhabra/mt-kahypar} 
+
+\smallbreak
+\noindent For a new objective function for \texttt{Mt-KaHyPar}, we 
 needed to implement efficient calculation of the conductance of the 
 clustering, formulate an initial partitioning algorithm to apply to 
 the coarsest hypergraph and a define a gain function for the local 
@@ -342,19 +359,31 @@ $\omega(\partial(V_i))$ in the numerator and
 $\min(\origVol(V_i), \origVol(V) - \origVol(V_i))$ in the denominator. These 
 enteries are updated by changes of the cut weights and volumes of the clusters.
 To make sure, that our priority queue (max 2 heap) is always sorted, we use a
-lock by every change of its entery.
+lock by every change of its entery. We also use lazy updates of the priority queue
+to avoid unnecessary usage of the lock. This is done by storing the deltas of the
+cut weights and volumes of the clusters, when it is clear, that the update is not 
+yet finished (\eg when the new cut weight would be higher that the now volume of 
+a cluster).
 
 To store and compare the fractions, we also use another new class 
 \textbf{NonnegativeFraction}, that supports comparison of two nonnegative fractions 
 without a risk of an overflow. This is achieved by tricks with integral diviion and
 comparing recipocal rest fractions in the case of the same integral part of the 
-fraction. Also, for the case of an empty cluster, we make sure, that a fraction
+fraction. Furthermore, for the case of an empty cluster, we make sure, that a fraction
 with $0$ in the denominator is always not than any other fraction without a zero in 
 the denominator.
 
 \smallbreak
 With all this information, we can efficiently calculate the conductance of the
 clustering by sinmpy looking at the top element of the ConductancePriorityQueue.
+Note that we use the original volumes, thus the computed conductance of the
+clustering is the value of the conductance for the clustering of the original 
+hypergraph with nodes assigned to clusters of their representatives in the 
+current coarsened hypergraph. This way we always optimize the final value 
+of the conductance of the clustering. If we would use the volumes of the
+coarsened hypergraph, the conductance of the clustering would be different, 
+as during the coarsening phase the algorithm merges nodes into clusters, and
+therefore reduces the volumes of the clusters.
 
 \subsection{Initial Partitioning}
 \textbf{Initial partitioning algorithm} is applied 
@@ -366,21 +395,21 @@ to a separate cluster. The idea is, that during the uncoarsening phase,
 the algorithm will merge some of the clusters together, to minimize the
 conductance of the resulting partition. However, this approach
 turned out to be inefficient, as most of the time the resulting
-clustering had conductance 1 and the numebr of clusters equaled the number
-of nodes in the coarsest hypergraph.
+clustering had conductance 1.
 
 The second approach was to use a \textit{random} partitioning, where
 each node of the coarsest hypergraph is randomly assigned to one of the 
 $k$ clusters. For a better qulity of the initial partitioning, we run
 the random partitioning algorithm 10 times and choose the one with the
-lowest conductance. this approach was more successful, so it is default
+lowest conductance. This approach was more successful, so it is default 
 in our \textit{cluster}-mode.
 
 \subsection{Gain function for Label Propagation}
 \noindent\textbf{Gain function} for the local search algorithm is needed
 to decide whether to move a node $v$ from one cluster $V_i$ to
 another cluster $V_j$ of the current partition during the uncoarsening
-phase. We again tried two approaches.
+phase. We again tried two approaches. They are implemented as separate 
+objectives, but differ only in the way of calculating the gain of a move.
 
 The first one is called \textit{conductance\_local}. Here, the gain of
 moving a node $v$ from one cluster $V_i$ to another cluster $V_j$ is
@@ -422,7 +451,8 @@ a difference between the new and the old cut weights and volumes
 made by the move is used to get the attributed gain of the concrete move.
 The \textbf{attributed gains} of a move is then calculated as the difference
 in the conductance of the clustering exactly the same way as in 
-\textit{conductance\_local} approach and also runs in constant time for each move. 
+\textit{conductance\_global} approach and also runs in constant time for 
+each move. 
 
 \medskip
 This concludes the overview of our adjustments to the \texttt{Mt-KaHyPar} algorithm.
@@ -433,29 +463,19 @@ found in the \texttt{Changes Guide.md} on the
 \section{Experimental Results}
 \label{sec:experiments}
 
-As we have already mentioned, we compare our implementation with the state of the art
-modularity based hypergraph clustering algorithm \texttt{HypergraphModularity}, 
-because no other conductance-based hypergraph clustering algorithm is known to us.
+We conducted tree sets of experiments to evaluate the performance of our
+implementation. All the experiments were conducted on a machine consisting 
+of a sixteen-core Intel Xeon Silver 4216 processor running at 2.1 GHz, 
+100 GB of main memory, 16 MB of L2-Cache, and 22 MB of L3-Cache running 
+Ubuntu 20.04.1.
 
-All the experiments were conducted on a machine consisting of a sixteen-core Intel 
-Xeon Silver 4216 processor running at 2.1 GHz, 100 GB of main memory, 
-16 MB of L2-Cache, and 22 MB of L3-Cache running Ubuntu 20.04.1. The comparison 
-against \texttt{HypergraphModularity} was done on only one cpu on the circuit-based 
-benchmark set \texttt{ISPD98} \cite{IBMBenchmark}, which was previously used to 
-evaluate the conductance-quality of a hypergraph clustering algorithm \cite{HyperSF}.
-The scalability of our implementation was tested on the same machine but on 1, 2, 4, 8, 
-16 and 32 threads using the large circuit hypergraph \texttt{circuit5M.mtx.hgr}
-STOPPED HERE.
+\subsection{Comparison against a state of the art hypergraph clustering algorithm}
 
-
-STOPPED HERE
-The benchmark set consists of 18 hypergraphs
-
-\begin{table}[!ht]
+\begin{table}
     \centering
     \small
     \begin{tabular}{|c|c|c|c|c|c|c|c|} \hline
-               & \multirow{2}{*}{\textbf{k}}  & \multicolumn{2}{c}{\multirow{2}{*}{{\textbf{HypergraphModularity}}}} & \multicolumn{4}{|c|}{\textbf{Conductance-based clustering}} \\ \cline{5-8}
+               & \multirow{2}{*}{\textbf{k}}  & \multicolumn{2}{c}{\multirow{2}{*}{{\textbf{HyperModularity}}}} & \multicolumn{4}{|c|}{\textbf{Conductance-based clustering}} \\ \cline{5-8}
                &       & \multicolumn{2}{c}{} & \multicolumn{2}{|c|}{conductance\_local, random}    & \multicolumn{2}{c|}{conductance\_global, random} \\ \hline
                &       & $\varphi$ & Run- and I/O time & $\varphi$ & Run- and I/O time & $\varphi$ & Run- and I/O time \\ \hline 
 \textbf{ibm02} & 11         & 0,3211 & 18,0384 s + 0,0363 s  & \textbf{0,2662} & 0,2471 s + 0,0175 s & 0,9231 & 0,3123 s + 0,0176 s  \\ 
@@ -476,14 +496,153 @@ The benchmark set consists of 18 hypergraphs
 \textbf{ibm17} & 47         & \textbf{0,2063} & 789,4657 s + 0,4700 s & 0,2071 & 2,9459 s + 0,1047 s & 0,9412 & 2,9660 s + 0,1068 s  \\ 
 \textbf{ibm18} & 48         & \textbf{0,0944} & 977,1867 s + 0,5143 s & 0,1464 & 2,8057 s + 0,1083 s & 0,8889 & 3,1900 s + 0,1114 s  \\ \hline
     \end{tabular}
-    \caption{Comparison of our conductance-based clustering with \texttt{HypergraphModularity}. 
-    $k$ for each instance is the number of clusters found by the \texttt{HypergraphModularity} 
+    \caption{Comparison of our conductance-based clustering with \texttt{HyperModularity}. 
+    $k$ for each instance is the number of clusters found by the \texttt{HyperModularity} 
     algorithm. The best results are marked in bold.}
+    \label{tab:comparison}
 \end{table}
 
+\begin{table}
+    \centering
+    \small
+    \begin{tabular}{|c|c|c|} \hline
+        \textbf{Instance} & \multicolumn{2}{|c|}{\textit{conductance\_local}} \\ \hline
+                       & \textbf{Conductance} & \textbf{Run- and I/O-time} \\ \hline
+        \textbf{ibm01} & 0,3590 & 0,188 s + 0,0147 s \\ 
+        \textbf{ibm02} & 0,4436 & 0,459 s + 0,016 s  \\ 
+        \textbf{ibm03} & 0,3634 & 0,3712 s + 0,0177 s\\ 
+        \textbf{ibm04} & 0,4012 & 0,4396 s + 0,0197 s\\ 
+        \textbf{ibm05} & 0,4044 & 0,6242 s + 0,0234 s\\ 
+        \textbf{ibm06} & 0,3540 & 0,6637 s + 0,0244 s\\ 
+        \textbf{ibm07} & 0,3290 & 0,8266 s + 0,0275 s\\ 
+        \textbf{ibm08} & 0,3675 & 0,8152 s + 0,0321 s\\ 
+        \textbf{ibm09} & 0,2687 & 0,6863 s + 0,0316 s\\ 
+        \textbf{ibm10} & 0,3073 & 0,9924 s + 0,0400 s\\ 
+        \textbf{ibm11} & 0,2926 & 0,9065 s + 0,0403 s\\ 
+        \textbf{ibm12} & 0,3347 & 1,0801 s + 0,0405 s\\ 
+        \textbf{ibm13} & 0,2683 & 1,1451 s + 0,0468 s\\ 
+        \textbf{ibm14} & 0,2557 & 2,1130 s + 0,0768 s\\ 
+        \textbf{ibm15} & 0,2453 & 2,4405 s + 0,0958 s\\ 
+        \textbf{ibm16} & 0,2151 & 2,5286 s + 0,0992 s\\ 
+        \textbf{ibm17} & 0,2514 & 3,0733 s + 0,1061 s\\ 
+        \textbf{ibm18} & 0,2302 & 3,0714 s + 0,1084 s\\ \hline
+    \end{tabular}
+    \caption{\textit{conductance\_local} mode with the random IP and $k = 100$. 
+    In all cases, exactly 100 clusters were found.}
+    \label{tab:comparison_k}
+\end{table}
+
+\par As no other conductance-based hypergraph clustering algorithm is known to us, we 
+compare our implementation with the state of the art modularity based hypergraph 
+clustering algorithm \texttt{HyperModularity}. Conductance of the found 
+clusterings is calculated separately for both our algorithm and 
+\texttt{HyperModularity}. Our implementation was run on one cpu, as 
+\texttt{HyperModularity} is not parallelized. Experiment was conducted on the
+circuit-based benchmark set \texttt{ISPD98}, which was
+previously used to evaluate the conductance-quality of a hypergraph clustering
+algorithm \cite{HyperSF}. The benchmark set consists of 18 hypergraphs with
+increasing sizes, ranging from  $14 111$ nets with $50 566$ pins in the smallest
+hypergraph \texttt{ibm01} to $201 920$ nets with $819 697$ pins in the largest
+one \texttt{ibm18} \cite{IBMBenchmark}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{conductance_comparison.png}
+    \caption{Comparison of conductance of the partition.}
+    \label{fig:conductance}
+\end{figure}
+
+To begin with, as \texttt{HyperModularity} decides the number of clusters $k$ 
+automatically, we ran it first and then ran our algorithm with the same $k$ in 
+different configurations. In the Table I~\ref{tab:comparison} we show the results 
+of the comparison of \texttt{HyperModularity} against \textit{conductance\_local} 
+and \textit{conductance\_global} with the random initial partitioner. We can see,
+that \textit{conductance\_local} gives roughlt the same conductance as 
+the \texttt{HyperModularity}, while \textit{conductance\_global} gives a much worse
+result. Time-wise, both our implementations are much faster than 
+\texttt{HyperModularity}.
+
+
+\begin{figure}[t]
+    \centering 
+    \includegraphics{time_comparison.png}
+    \caption{Comparison of the run time against \texttt{HyperModularity}. The $y$-acsis is logarithmic}%
+    \label{fig:time}
+\end{figure}
+
+To make the comparison more fair, we also ran \textit{conductance\_local} with the 
+preset number of clusters $k = 100$ and the random initial partitioner. 
+The results are shown in the Table~\ref{tab:comparison_k}. We can see, that
+this way \textit{conductance\_local} gives a worse result than in the previous run,
+but it is still close to the \texttt{HyperModularity}.
+
+Figure~\ref{fig:conductance} and Figure~\ref{fig:time} summarize the conductance 
+and the run time of this comparison. 
+
+\medskip
+Analogous experiments were run with the singleton initial partitioner, but the resulting
+was always 1 except for rare 0.625 and 0.750. Therefore we don't include the results
+of these experiments in the report.
+
+\subsection{Scalability of the algorithm}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|} \hline
+        \textbf{Threads} & \textbf{Conductance} & \textbf{Run- and I/O-time} \\ \hline
+        \textbf{1} & 0.5967 & 131.5407 s  + 3.4846 s \\ 
+        \textbf{2} & 0.7283 & 74.2843 s + 2.1009 s \\ 
+        \textbf{4} & 0.9369 & 46.9272 s  + 1.6002 s \\ 
+        \textbf{8} & 0.6478 & 25.4402 s + 1.4921 s \\ 
+        \textbf{16} & 0.7473 & 18.9490 s  + 1.5178 s \\ \hline
+    \end{tabular}
+    \caption{Performance of \textit{conductance\_local} with $k = 100$ 
+    by increasing number of threads.}
+    \label{tab:scalability_t}
+\end{table}
+
+The scalability of our implementation was tested only on the best configuration
+(\textit{conductance\_local} with random initial partitioner) in two ways. First, 
+we ran our algorithm on a large circuit-based hypergraph \texttt{circuit5M.mtx.hgr} 
+with $5 558 326$ hyperedges and $59 524 291$ pins using 1, 2, 4, 8 and 16 threads.
+The results are shown in the Table~\ref{tab:scalability_t}. We can see, that the 
+running time of the algorithm decreases by about factor 2 with each next thread.
+Unfortunately, the conductance of the clustering is not getting better with
+the increase of the number of threads.
+
+\smallskip
+\noindent The second test was run on the same hypergraph, but with a different
+number of clusters $k$. We ran the algorithm with $k = 100$, $k = 200$, $k = 400$, 
+$k = 800$ and $k = 1600$. The results are shown in the Table~\ref{tab:scalability_k}. 
+We can see, that the running time of the algorithm grows with the exponential increase 
+of $k$, but not exponentially. Unfortunately, the conductance of the clustering is
+getting worse and the number of clusters is not seemingly converging to some 
+optimal number of "true" clusters. This is probably due to the fact, that with $k$
+greater than the number of nodes in the coarsest hypergraph, random initial partitioner 
+works similarily to singleton.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|} \hline
+        \textbf{k} & \textbf{Conductance} & \textbf{Run- and I/O-time} & \textbf{\# clusters} \\ \hline
+        \textbf{100} & 0.6483 & 42.3435 s + 5.1161 s & 100 \\ 
+        \textbf{200} & 0.8326 & 50.0950 s + 1.6660 s & 198 \\ 
+        \textbf{400} & 0.8597 & 46.2647 s + 1.6059 s & 376 \\ 
+        \textbf{800} & 0.8272 & 61.7254 s + 5.12642 s & 623 \\ 
+        \textbf{1600} & 0.9367 & 80.9240 s + 3.4388 s & 770 \\ \hline
+    \end{tabular}
+    \caption{The performance of \textit{conductance\_local} with random on 4 threads
+    with increasing $k = 100$}
+    \label{tab:scalability_k}
+\end{table}
 
 \section{Conclusion}
 \label{sec:conclusion}
+
+The experimantal results show, that our implementation can find clustering
+with conductance comparable to a state of the art hypergraph clustering and
+needs significantly less time to do so, but the result heavily depends on 
+the parameter $k$ and the initial partitioner.
 
 \appendix
 \section{Appendix}
@@ -543,104 +702,6 @@ in the implementation due to late discovery.
 \end{proof}
 
 
-\section{Gain for local search: naive?}
-
-Information needed:
-\begin{itemize}
-    \item 
-    the sum of all weights of the nets: $vol(V) = const$;
-    \item
-\underline{for each node}: 
-    \begin{itemize}
-        \item incident nets;
-        \item weighted degree;
-    \end{itemize}
-    \item 
-\underline{for each net $e$}: 
-    \begin{itemize}
-        \item 
-number of pins in $e$: $|e|$;
-        \item 
-number of pins of $e$ which are currently in cluster $V_i$ for each cluster index $i$: $e.\#pins(V_i)$;
-    \end{itemize}
-    \item 
-\underline{for each cluster index $i$}: 
-    \begin{itemize}
-        \item 
-current volume: $vol(V_i)$;
-        \item 
-weights sum of cutting edges of the current $V_i$: $V_i.out\_weight$.
-    \end{itemize}
-\end{itemize}
-
-Time needed: $\mathcal{O}(k \cdot deg(v) + k \cdot \log k)$...
-
-\medskip
-
-Calculating the gain for moving node $v$ from $V_i$ to $V_j$:
-\begin{enumerate}
-    \item 
-(temporary) adjust volumes of $V_i$ and $V_j$: $\Theta(1)$
-\[vol(V_i)' \xleftarrow{} vol(V_i) - \deg_\omega(v)\]
-\[vol(V_j)' \xleftarrow{} vol(V_j) + \deg_\omega(v)\]
-    \item 
-(temporary) adjust $Vi.out\_weight$ and analogously for $Vj.out\_weight$ (but with reversed signs of $\omega(e)$ and $0, |e| - 1$ in conditions in ifs): $\Theta(\deg(v))$
-
-For each incident to $v$ net $e \in E$:
-\begin{itemize}
-    \item[]
-if $1 = e.\#pins(V_i) < |e|$: 
-    \begin{itemize}
-        \item[]
-$e$ is a cutting net for the cut $V_i$, $v$ - its last pin in $V_i$
-
-$\implies$ $e$ won't be a cutting edge after removal of $v$:
-\[Vi.out\_weight' \xleftarrow{} V_i.out\_weight - \omega(e)\]
-    \end{itemize}
-    \item[]
-else if $1 < e.\#pins(V_i) = |e|$:
-\begin{itemize}
-\item[]
-$e$ was not a cutting net for the cut $V_i$, but it will be after the removal of $v$:
-\[Vi.out\_weight' \xleftarrow{} V_i.out\_weight + \omega(e)\]
-    \end{itemize}
-\end{itemize}
-
-\item
-calculate new conductances of cuts $V_i$ and (analogously) $V_j$: $\Theta(1)$
-\[\varphi(V_i) = \frac{V_i.out\_weight'}{\min\{vol(V_i)', vol(V) - vol(V_i)'\}}\]
-\end{enumerate}
-
-\medskip
-\textbf{The question is, what should we take for gain from moving $v$}:
-\begin{enumerate}
-    \item 
-decrease in maximal conductance between the cuts $V_i$ and $V_j$: \textit{easy};
-    \item 
-decrease in the overall maximal conductance: a PQ with $k$ current conductances $\varphi(V_1), \dots, \varphi(V_k)$ - additional $\mathcal{O}(k \log k)$ for finding the best $V_j$.
-    \item[$\implies$] maybe the best according to criterion 1 from the best according to criterion 2... (\textbf{\textit{I believe, I should try all these variants and possibly some other...}})
-\end{enumerate}
-\hrule
-%\end{idea}
-
-\bigskip
-A PQ with $k$ current conductances $\varphi(V_1), \dots, \varphi(V_k)$ is needed (?) to calculate the contribution of a net to the overall conductance of the partition (?):
-
-\section{Contribution of a net to the overall conductance}
-Objective function: conductance of the partition (also naive?):
-
-\begin{itemize}
-    \item each edge $e$ from the most expensive conduction-wise cut $V_i$ contributes by 
-    \[\frac{\omega(e)}{\max\{vol(V_i), vol(V) - vol(V_i)\}}\]
-    \item all other edges contribute by 0 (to ensure that the sum of all contributions is the current conductance...)
-\end{itemize}
-\hrule
-
-
-
-
-
 \bibliographystyle{plainnat}
 \bibliography{references.bib}
-
 \end{document}

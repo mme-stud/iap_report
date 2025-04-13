@@ -22,18 +22,27 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{3}{section.4}\protected@file@percent }
 \newlabel{sec:implementation}{{4}{3}{Implementation}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Efficient Conductance Calculation}{3}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Initial Partitioning}{4}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Gain function for Label Propagation}{4}{subsection.4.3}\protected@file@percent }
-\citation{IBMBenchmark}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Initial Partitioning}{5}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Gain function for Label Propagation}{5}{subsection.4.3}\protected@file@percent }
 \citation{HyperSF}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Results}{5}{section.5}\protected@file@percent }
-\newlabel{sec:experiments}{{5}{5}{Experimental Results}{section.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{5}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{6}{5}{Conclusion}{section.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{5}{appendix.A}\protected@file@percent }
-\newlabel{appendix:a}{{A}{5}{Appendix}{appendix.A}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of our conductance-based clustering with \texttt  {HypergraphModularity}. $k$ for each instance is the number of clusters found by the \texttt  {HypergraphModularity} algorithm. The best results are marked in bold.}}{6}{table.caption.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Gain for local search: naive?}{6}{appendix.B}\protected@file@percent }
+\citation{IBMBenchmark}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of our conductance-based clustering with \texttt  {HyperModularity}. $k$ for each instance is the number of clusters found by the \texttt  {HyperModularity} algorithm. The best results are marked in bold.}}{6}{table.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:comparison}{{1}{6}{Comparison of our conductance-based clustering with \texttt {HyperModularity}. $k$ for each instance is the number of clusters found by the \texttt {HyperModularity} algorithm. The best results are marked in bold}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Results}{6}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{5}{6}{Experimental Results}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison against a state of the art hypergraph clustering algorithm}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces \textit  {conductance\_local} mode with the random IP and $k = 100$. In all cases, exactly 100 clusters were found.}}{7}{table.caption.3}\protected@file@percent }
+\newlabel{tab:comparison_k}{{2}{7}{\textit {conductance\_local} mode with the random IP and $k = 100$. In all cases, exactly 100 clusters were found}{table.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison of conductance of the partition.}}{7}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:conductance}{{1}{7}{Comparison of conductance of the partition}{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison of the run time against \texttt  {HyperModularity}. The $y$-acsis is logarithmic}}{8}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:time}{{2}{8}{Comparison of the run time against \texttt {HyperModularity}. The $y$-acsis is logarithmic}{figure.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Performance of \textit  {conductance\_local} with $k = 100$ by increasing number of threads.}}{8}{table.caption.6}\protected@file@percent }
+\newlabel{tab:scalability_t}{{3}{8}{Performance of \textit {conductance\_local} with $k = 100$ by increasing number of threads}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Scalability of the algorithm}{8}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{8}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{8}{Conclusion}{section.6}{}}
 \bibstyle{plainnat}
 \bibdata{references.bib}
 \bibcite{HyperSF}{{1}{2021}{{Aghdaei et~al.}}{{Aghdaei, Zhao, and Feng}}}
@@ -42,6 +51,11 @@
 \bibcite{HyperModularity}{{4}{2021}{{Chodrow et~al.}}{{Chodrow, Veldt, and Benson}}}
 \bibcite{MtKaHyPar2020}{{5}{2020}{{Gottesb{\"{u}}ren et~al.}}{{Gottesb{\"{u}}ren, Heuer, Sanders, and Schlag}}}
 \bibcite{ApplicationImageSegmentation}{{6}{2011}{{Kim et~al.}}{{Kim, Nowozin, Kohli, and Yoo}}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces The performance of \textit  {conductance\_local} with random on 4 threads with increasing $k = 100$}}{9}{table.caption.7}\protected@file@percent }
+\newlabel{tab:scalability_k}{{4}{9}{The performance of \textit {conductance\_local} with random on 4 threads with increasing $k = 100$}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{9}{appendix.A}\protected@file@percent }
+\newlabel{appendix:a}{{A}{9}{Appendix}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{References}{9}{section*.9}\protected@file@percent }
 \bibcite{HKRelax}{{7}{2014}{{Kloster and Gleich}}{{}}}
 \bibcite{PCde}{{8}{2023}{{Lin et~al.}}{{Lin, Li, and Jia}}}
 \bibcite{ModularityComparison}{{9}{2024}{{Poda and Matias}}{{}}}
@@ -53,7 +67,5 @@
 \newlabel{tocindent1}{6.95pt}
 \newlabel{tocindent2}{11.49998pt}
 \newlabel{tocindent3}{0pt}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Contribution of a net to the overall conductance}{8}{appendix.C}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{8}{section*.4}\protected@file@percent }
-\newlabel{TotPages}{{8}{8}{}{page.8}{}}
-\gdef \@abspage@last{8}
+\newlabel{TotPages}{{10}{10}{}{page.10}{}}
+\gdef \@abspage@last{10}
